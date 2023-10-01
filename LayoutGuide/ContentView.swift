@@ -28,6 +28,8 @@ struct SettingsApp: View {
     
     @State var mainView = navigationViews.addLayer
     @State var layers: [Layer] = [Layer(title: "test", imageString: "", id: "123")]
+    var jsonService = JsonServiceImpl()
+
     var body: some View {
         NavigationView () {
             List() {
@@ -38,7 +40,7 @@ struct SettingsApp: View {
                     Button(action: {
                         mainView = .layer(layer)
                     }, label: {
-                        Text("Layer 1")
+                        Text(layer.title)
                             .padding([.vertical], 5)
                             .frame(minWidth: 0, maxWidth: .infinity)
                     })
@@ -58,25 +60,47 @@ struct SettingsApp: View {
             
             switch mainView {
             case .addLayer:
-                AddLayer()
+                AddLayer(layers: $layers)
             case .layer(let layer):
-                LayerView(layer: layer)
+                LayerView(layers: $layers, layer: layer)
+                    .id(layer.id)
             }
         }.frame(minWidth: 500, minHeight: 500)
+        .onAppear(perform: {
+            self.layers = jsonService.loadLayers()
+        })
     }
 }
 
 struct LayerView: View {
+    @Binding var layers: [Layer]
     @State var layer: Layer
-    
+    var jsonService = JsonServiceImpl()
+
     var body: some View {
-        Text(layer.title)
+        VStack {
+            Text(layer.title)
+            
+            if let image = layer.image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 300)
+            }
+            
+            Button("Delete") {
+                jsonService.remove(layer: layer)
+                layers = jsonService.loadLayers()
+            }
+        }
     }
 }
 
 struct AddLayer: View {
+    @Binding var layers: [Layer]
     @State var title: String = ""
     @State var image: NSImage?
+    var jsonService = JsonServiceImpl()
     
     var body: some View {
         VStack {
@@ -97,7 +121,13 @@ struct AddLayer: View {
             Spacer()
             
             Button("Save") {
-                
+                if let imageString = convertImageToBase64() {
+                    let layer = Layer(title: self.title, imageString: imageString, id: UUID().uuidString)
+                    jsonService.save(layer: layer)
+                    layers.append(layer)
+                } else {
+                    
+                }
             }
             .padding([.bottom], 50)
         }
@@ -111,15 +141,6 @@ struct AddLayer: View {
             
             let base64String = pngData.base64EncodedString()
             return base64String
-        }
-        return nil
-    }
-    
-    func convertBase64ToImage(base64String: String) -> NSImage? {
-        if let imageData = Data(base64Encoded: base64String) {
-            if let image = NSImage(data: imageData) {
-                return image
-            }
         }
         return nil
     }
