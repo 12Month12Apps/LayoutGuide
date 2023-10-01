@@ -36,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5648D6652AC9B0360070B2B1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5648D6662AC9B1660070B2B1 /* Licence */ = {isa = PBXFileReference; lastKnownFileType = text; path = Licence; sourceTree = "<group>"; };
 		56735F5B2AB6F6900074E261 /* LayoutGuide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayoutGuide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56735F5E2AB6F6900074E261 /* LayoutGuideApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuideApp.swift; sourceTree = "<group>"; };
 		56735F602AB6F6900074E261 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +81,8 @@
 		56735F522AB6F68F0074E261 = {
 			isa = PBXGroup;
 			children = (
+				5648D6662AC9B1660070B2B1 /* Licence */,
+				5648D6652AC9B0360070B2B1 /* README.md */,
 				56735F5D2AB6F6900074E261 /* LayoutGuide */,
 				56735F6F2AB6F6920074E261 /* LayoutGuideTests */,
 				56735F792AB6F6920074E261 /* LayoutGuideUITests */,
