@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HotKey
 
 @main
 struct LayoutGuideApp: App {
@@ -26,9 +27,15 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     var eventMonitor: Any?
+    let hotKey = HotKey(key: .d, modifiers: [.command, .shift])
 
     func applicationDidFinishLaunching(_ notification: Notification) {
 //        setupGlobalEventMonitor()
+        hotKey.keyDownHandler = {
+            if let button = self.statusBarItem.button {
+                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            }
+        }
         
         let contentView = SettingsApp(isPopup: true)
         
