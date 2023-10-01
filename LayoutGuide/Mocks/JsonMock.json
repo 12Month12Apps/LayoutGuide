@@ -1,0 +1,18 @@
+
+[
+    {
+        "name": "Test Layer 1",
+        "image:" "",
+        "id": "test123"
+    },
+    {
+        "name": "Test Layer 2",
+        "image:" "",
+        "id": "test124"
+    },
+    {
+        "name": "Test Layer 3",
+        "image:" "",
+        "id": "test125"
+    }
+]
