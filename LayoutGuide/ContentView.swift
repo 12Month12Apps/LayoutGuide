@@ -25,37 +25,51 @@ enum navigationViews {
 }
 
 struct SettingsApp: View {
-    
+    var isPopup: Bool
     @State var mainView = navigationViews.addLayer
     @State var layers: [Layer] = [Layer(title: "test", imageString: "", id: "123")]
     var jsonService = JsonServiceImpl()
-
+    @State private var selectedLayerIndex: Int? = nil
+    @Environment(\.openWindow) private var openWindow
+    
     var body: some View {
         NavigationView () {
             List() {
                 Text("Layers")
                     .font(.title)
 
-                ForEach(layers) { layer in
+                ForEach(layers.indices, id: \.self) { index in
                     Button(action: {
-                        mainView = .layer(layer)
+                        selectedLayerIndex = index
+                        mainView = .layer(layers[index])
                     }, label: {
-                        Text(layer.title)
+                        Text(layers[index].title)
                             .padding([.vertical], 5)
                             .frame(minWidth: 0, maxWidth: .infinity)
                     })
+                    .tag(index)
                 }
                 
                 Spacer()
                     .frame(minHeight: 0, maxHeight: .infinity)
                 
-                Button(action: {
-                    mainView = .addLayer
-                },label: {
-                    Text("Add Layer")
-                        .padding([.vertical], 5)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                })
+                if !isPopup {
+                    Button(action: {
+                        mainView = .addLayer
+                    },label: {
+                        Text("Add Layer")
+                            .padding([.vertical], 5)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    })
+                } else {
+                    Button(action: {
+                        openWindow(id: "Settings")
+                    },label: {
+                        Text("Open App Window")
+                            .padding([.vertical], 5)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    })
+                }
             }.listStyle(.sidebar)
             
             switch mainView {
@@ -68,7 +82,27 @@ struct SettingsApp: View {
         }.frame(minWidth: 500, minHeight: 500)
         .onAppear(perform: {
             self.layers = jsonService.loadLayers()
+//            GlobalShortcutManager.requestShortcutPermissions()
         })
+        .background {
+            Group {
+                Button(action: { navigateLayers(direction: -1) }) {}
+                    .keyboardShortcut(.upArrow, modifiers: [])
+                Button(action: { navigateLayers(direction: 1) }) {}
+                    .keyboardShortcut(.downArrow, modifiers: [])
+            }.opacity(0)
+        }
+    }
+
+    func navigateLayers(direction: Int) {
+        if let currentIndex = selectedLayerIndex {
+            let newIndex = (currentIndex + direction + layers.count) % layers.count
+            selectedLayerIndex = newIndex
+            mainView = .layer(layers[newIndex])
+        } else if !layers.isEmpty {
+            selectedLayerIndex = 0
+            mainView = .layer(layers[0])
+        }
     }
 }
 
@@ -184,5 +218,5 @@ struct FileView: View {
 
 #Preview {
 //    ContentView()
-    SettingsApp()
+    SettingsApp(isPopup: false)
 }
