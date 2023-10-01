@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5648D6682AC9C4950070B2B1 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5648D6672AC9C4950070B2B1 /* MenuBar.swift */; };
-		5648D66B2AC9CF400070B2B1 /* GlobalShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5648D66A2AC9CF400070B2B1 /* GlobalShortcutManager.swift */; };
 		5648D66E2AC9F69E0070B2B1 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 5648D66D2AC9F69E0070B2B1 /* HotKey */; };
+		5648D6702AC9FBFB0070B2B1 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5648D66F2AC9FBFB0070B2B1 /* info.plist */; };
 		56735F5F2AB6F6900074E261 /* LayoutGuideApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56735F5E2AB6F6900074E261 /* LayoutGuideApp.swift */; };
 		56735F612AB6F6900074E261 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56735F602AB6F6900074E261 /* ContentView.swift */; };
 		56735F632AB6F6920074E261 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56735F622AB6F6920074E261 /* Assets.xcassets */; };
@@ -41,8 +40,7 @@
 /* Begin PBXFileReference section */
 		5648D6652AC9B0360070B2B1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5648D6662AC9B1660070B2B1 /* Licence */ = {isa = PBXFileReference; lastKnownFileType = text; path = Licence; sourceTree = "<group>"; };
-		5648D6672AC9C4950070B2B1 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
-		5648D66A2AC9CF400070B2B1 /* GlobalShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalShortcutManager.swift; sourceTree = "<group>"; };
+		5648D66F2AC9FBFB0070B2B1 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		56735F5B2AB6F6900074E261 /* LayoutGuide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayoutGuide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56735F5E2AB6F6900074E261 /* LayoutGuideApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuideApp.swift; sourceTree = "<group>"; };
 		56735F602AB6F6900074E261 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,8 +114,7 @@
 				56735F622AB6F6920074E261 /* Assets.xcassets */,
 				56735F672AB6F6920074E261 /* LayoutGuide.entitlements */,
 				56735F642AB6F6920074E261 /* Preview Content */,
-				5648D6672AC9C4950070B2B1 /* MenuBar.swift */,
-				5648D66A2AC9CF400070B2B1 /* GlobalShortcutManager.swift */,
+				5648D66F2AC9FBFB0070B2B1 /* info.plist */,
 			);
 			path = LayoutGuide;
 			sourceTree = "<group>";
@@ -275,6 +272,7 @@
 			files = (
 				56735F662AB6F6920074E261 /* Preview Assets.xcassets in Resources */,
 				56735F632AB6F6920074E261 /* Assets.xcassets in Resources */,
+				5648D6702AC9FBFB0070B2B1 /* info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,10 +299,8 @@
 			files = (
 				567B237B2AC97D6900B4ADCB /* JsonMock.json in Sources */,
 				56735F612AB6F6900074E261 /* ContentView.swift in Sources */,
-				5648D66B2AC9CF400070B2B1 /* GlobalShortcutManager.swift in Sources */,
 				56735F5F2AB6F6900074E261 /* LayoutGuideApp.swift in Sources */,
 				567B237F2AC980AF00B4ADCB /* JsonService.swift in Sources */,
-				5648D6682AC9C4950070B2B1 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

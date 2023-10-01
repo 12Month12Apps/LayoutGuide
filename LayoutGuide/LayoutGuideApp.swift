@@ -13,12 +13,8 @@ struct LayoutGuideApp: App {
     @NSApplicationDelegateAdaptor(PrivateAppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        WindowGroup {
-            SettingsApp(isPopup: false)
-        }
-        
         Window("SettingsAppp", id: "Settings") {
-            SettingsApp(isPopup: false)
+            LayoutApp(isPopup: false)
         }
     }
 }
@@ -27,7 +23,7 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     var eventMonitor: Any?
-    let hotKey = HotKey(key: .d, modifiers: [.command, .shift])
+    let hotKey = HotKey(key: .l, modifiers: [.command, .shift])
 
     func applicationDidFinishLaunching(_ notification: Notification) {
 //        setupGlobalEventMonitor()
@@ -37,13 +33,13 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        let contentView = SettingsApp(isPopup: true)
+        let contentView = LayoutApp(isPopup: true)
         
         NSApp.setActivationPolicy(.accessory)
         
         // Create the popover
         popover = NSPopover()
-        popover.contentSize = NSSize(width: 400, height: 500)
+        popover.contentSize = NSSize(width: 800, height: 500)
         popover.behavior = .transient
         popover.contentViewController = NSHostingController(rootView: contentView)
         

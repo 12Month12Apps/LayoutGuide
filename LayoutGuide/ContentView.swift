@@ -7,27 +7,15 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
-
 enum navigationViews {
     case addLayer
     case layer(Layer)
 }
 
-struct SettingsApp: View {
+struct LayoutApp: View {
     var isPopup: Bool
     @State var mainView = navigationViews.addLayer
-    @State var layers: [Layer] = [Layer(title: "test", imageString: "", id: "123")]
+    @State var layers: [Layer] = [Layer(title: "Example", imageString: "", id: "123")]
     var jsonService = JsonServiceImpl()
     @State private var selectedLayerIndex: Int? = nil
     @Environment(\.openWindow) private var openWindow
@@ -76,13 +64,17 @@ struct SettingsApp: View {
             case .addLayer:
                 AddLayer(layers: $layers)
             case .layer(let layer):
-                LayerView(layers: $layers, layer: layer)
+                LayerView(isPopup: isPopup, layers: $layers, layer: layer)
                     .id(layer.id)
             }
         }.frame(minWidth: 500, minHeight: 500)
         .onAppear(perform: {
             self.layers = jsonService.loadLayers()
-//            GlobalShortcutManager.requestShortcutPermissions()
+            if isPopup {
+                if let layer = layers.first {
+                    mainView = .layer(layer)
+                }
+            }
         })
         .background {
             Group {
@@ -107,24 +99,27 @@ struct SettingsApp: View {
 }
 
 struct LayerView: View {
+    var isPopup: Bool
     @Binding var layers: [Layer]
     @State var layer: Layer
     var jsonService = JsonServiceImpl()
 
     var body: some View {
         VStack {
-            Text(layer.title)
+//            Text(layer.title)
             
             if let image = layer.image {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 300)
+                    .frame(maxWidth: 750)
             }
             
-            Button("Delete") {
-                jsonService.remove(layer: layer)
-                layers = jsonService.loadLayers()
+            if !isPopup {
+                Button("Delete") {
+                    jsonService.remove(layer: layer)
+                    layers = jsonService.loadLayers()
+                }
             }
         }
     }
@@ -218,5 +213,5 @@ struct FileView: View {
 
 #Preview {
 //    ContentView()
-    SettingsApp(isPopup: false)
+    LayoutApp(isPopup: false)
 }
