@@ -79,4 +79,8 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
             eventMonitor = nil
         }
     }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
 }

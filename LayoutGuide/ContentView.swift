@@ -84,6 +84,7 @@ struct LayoutApp: View {
                     .keyboardShortcut(.downArrow, modifiers: [])
             }.opacity(0)
         }
+        .handlesExternalEvents(preferring: Set(arrayLiteral: "*"), allowing: Set(arrayLiteral: "*"))
     }
 
     func navigateLayers(direction: Int) {
