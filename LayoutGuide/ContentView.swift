@@ -26,16 +26,23 @@ struct LayoutApp: View {
                 Text("Layers")
                     .font(.title)
 
-                ForEach(layers.indices, id: \.self) { index in
-                    Button(action: {
-                        selectedLayerIndex = index
-                        mainView = .layer(layers[index])
-                    }, label: {
-                        Text(layers[index].title)
-                            .padding([.vertical], 5)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                    })
-                    .tag(index)
+                if layers.count == 0{
+                    VStack {
+                        Text("Open Window with:")
+                        Text("Cmd + Shift + L")
+                    }
+                } else {
+                    ForEach(layers.indices, id: \.self) { index in
+                        Button(action: {
+                            selectedLayerIndex = index
+                            mainView = .layer(layers[index])
+                        }, label: {
+                            Text(layers[index].title)
+                                .padding([.vertical], 5)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                        })
+                        .tag(index)
+                    }
                 }
                 
                 Spacer()

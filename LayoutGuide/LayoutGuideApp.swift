@@ -26,7 +26,6 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
     let hotKey = HotKey(key: .l, modifiers: [.command, .shift])
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-//        setupGlobalEventMonitor()
         hotKey.keyDownHandler = {
             if let button = self.statusBarItem.button {
                 self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
@@ -58,17 +57,6 @@ private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
         } else {
             if let button = statusBarItem.button {
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            }
-        }
-    }
-    
-    private func setupGlobalEventMonitor() {
-        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.keyDown]) { [weak self] event in
-            guard let self = self else { return }
-            
-            // Cmd + Shift + P as the shortcut
-            if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 35 {
-                self.togglePopover(nil)
             }
         }
     }
