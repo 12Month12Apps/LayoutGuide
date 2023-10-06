@@ -53,7 +53,15 @@ struct LayoutApp: View {
                     Button(action: {
                         openWindow(id: "Settings")
                     },label: {
-                        Text("Open App Window")
+                        Text("Open Window")
+                            .padding([.vertical], 5)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    })
+                    
+                    Button(action: {
+                        NSApplication.shared.terminate(self)
+                    }, label: {
+                        Text("Close App")
                             .padding([.vertical], 5)
                             .frame(minWidth: 0, maxWidth: .infinity)
                     })
