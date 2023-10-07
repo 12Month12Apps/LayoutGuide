@@ -26,7 +26,7 @@ struct SettingsScreen: View {
 public struct LayoutApp: View {
     var isPopup: Bool
     @State var mainView = navigationViews.addLayer
-    @State var layers: [Layer] = [Layer(title: "Example", imageString: "", id: "123")]
+    @State var layers: [Layer] = []
     var jsonService = JsonServiceImpl()
     @State private var selectedLayerIndex: Int? = nil
     @Environment(\.openWindow) private var openWindow
@@ -40,8 +40,23 @@ public struct LayoutApp: View {
     public var body: some View {
         NavigationView () {
             List() {
-                Text("Layers")
-                    .font(.title)
+                HStack {
+                    Text("Layers")
+                        .font(.title)
+                    Spacer()
+                    Image(systemName: "goforward")
+                        .onTapGesture {
+                            self.layers = jsonService.loadLayers()
+                            if isPopup {
+                                if let layer = layers.first {
+                                    mainView = .layer(layer)
+                                }
+                            }
+                            if layers.isEmpty {
+                                mainView = .tutorial
+                            }
+                        }
+                }
 
                 ForEach(layers.indices, id: \.self) { index in
                     Button(action: {
@@ -107,7 +122,7 @@ public struct LayoutApp: View {
                 }
             }
         }.frame(minWidth: 500, minHeight: 500)
-        .onAppear(perform: {
+        .task {
             self.layers = jsonService.loadLayers()
             if isPopup {
                 if let layer = layers.first {
@@ -117,7 +132,7 @@ public struct LayoutApp: View {
             if layers.isEmpty {
                 mainView = .tutorial
             }
-        })
+        }
         .background {
             Group {
                 Button(action: { navigateLayers(direction: -1) }) {}
