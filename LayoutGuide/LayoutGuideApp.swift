@@ -7,6 +7,11 @@
 
 import SwiftUI
 import HotKey
+import KeyboardShortcuts
+
+extension KeyboardShortcuts.Name {
+    static let toggleMenubarWindow = Self("toggleMenubarWindow")
+}
 
 @main
 struct LayoutGuideApp: App {
@@ -14,25 +19,37 @@ struct LayoutGuideApp: App {
 
     var body: some Scene {
         Window("SettingsAppp", id: "Settings") {
-            LayoutApp(isPopup: false)
+            LayoutApp(isPopup: false, appState: AppState(delegate: appDelegate))
         }
     }
 }
 
-private class PrivateAppDelegate: NSObject, NSApplicationDelegate {
+@MainActor
+public final class AppState: ObservableObject {
+    init(delegate: PrivateAppDelegate) {
+        KeyboardShortcuts.onKeyUp(for: .toggleMenubarWindow) { [self] in
+            delegate.showPopOver()
+        }
+    }
+}
+
+class PrivateAppDelegate: NSObject, NSApplicationDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     var eventMonitor: Any?
     let hotKey = HotKey(key: .l, modifiers: [.command, .shift])
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        hotKey.keyDownHandler = {
-            if let button = self.statusBarItem.button {
-                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            }
+    func showPopOver() {
+        if let button = self.statusBarItem.button {
+            self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
+    }
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+//        hotKey.keyDownHandler = {
+            //        }
         
-        let contentView = LayoutApp(isPopup: true)
+        let contentView = LayoutApp(isPopup: true, appState: AppState(delegate: self))
         
         NSApp.setActivationPolicy(.accessory)
         

@@ -6,21 +6,37 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 enum navigationViews {
     case addLayer
     case layer(Layer)
+    case settings
 }
 
-struct LayoutApp: View {
+struct SettingsScreen: View {
+    var body: some View {
+        Form {
+            KeyboardShortcuts.Recorder("Toggle Menubar Window:", name: .toggleMenubarWindow)
+        }
+    }
+}
+
+public struct LayoutApp: View {
     var isPopup: Bool
     @State var mainView = navigationViews.addLayer
     @State var layers: [Layer] = [Layer(title: "Example", imageString: "", id: "123")]
     var jsonService = JsonServiceImpl()
     @State private var selectedLayerIndex: Int? = nil
     @Environment(\.openWindow) private var openWindow
+    @ObservedObject private var appState: AppState
+
+    public init(isPopup: Bool, appState: AppState) {
+        self.isPopup = isPopup
+        self.appState = appState
+    }
     
-    var body: some View {
+    public var body: some View {
         NavigationView () {
             List() {
                 Text("Layers")
@@ -56,6 +72,14 @@ struct LayoutApp: View {
                             .padding([.vertical], 5)
                             .frame(minWidth: 0, maxWidth: .infinity)
                     })
+                    
+                    Button(action: {
+                        mainView = .settings
+                    }, label: {
+                        Text("Settings")
+                            .padding([.vertical], 5)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    })
                 } else {
                     Button(action: {
                         openWindow(id: "Settings")
@@ -81,6 +105,8 @@ struct LayoutApp: View {
             case .layer(let layer):
                 LayerView(isPopup: isPopup, layers: $layers, layer: layer)
                     .id(layer.id)
+            case .settings:
+                SettingsScreen()
             }
         }.frame(minWidth: 500, minHeight: 500)
         .onAppear(perform: {
@@ -227,7 +253,7 @@ struct FileView: View {
     }
 }
 
-#Preview {
+//#Preview {
 //    ContentView()
-    LayoutApp(isPopup: false)
-}
+//    LayoutApp(isPopup: false, appState: AppState)
+//}
