@@ -59,15 +59,7 @@ public struct LayoutApp: View {
                 }
 
                 ForEach(layers.indices, id: \.self) { index in
-                    Button(action: {
-                        selectedLayerIndex = index
-                        mainView = .layer(layers[index])
-                    }, label: {
-                        Text(layers[index].title)
-                            .padding([.vertical], 5)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                    })
-                    .tag(index)
+                    layerButton(index: index)
                 }
                 
                 Spacer()
@@ -142,6 +134,33 @@ public struct LayoutApp: View {
             }.opacity(0)
         }
         .handlesExternalEvents(preferring: Set(arrayLiteral: "*"), allowing: Set(arrayLiteral: "*"))
+    }
+    
+    @ViewBuilder
+    private func layerButton(index: Int) -> some View {
+        if index == selectedLayerIndex {
+            Button(action: {
+                selectedLayerIndex = index
+                mainView = .layer(layers[index])
+            }, label: {
+                Text(layers[index].title)
+                    .padding([.vertical], 5)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+            })
+            .tag(index)
+            .buttonStyle(.borderedProminent)
+        } else {
+            Button(action: {
+                selectedLayerIndex = index
+                mainView = .layer(layers[index])
+            }, label: {
+                Text(layers[index].title)
+                    .padding([.vertical], 5)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+            })
+            .tag(index)
+            .buttonStyle(.bordered)
+        }
     }
 
     func navigateLayers(direction: Int) {
