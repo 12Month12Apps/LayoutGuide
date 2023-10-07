@@ -87,6 +87,7 @@
 		56735F522AB6F68F0074E261 = {
 			isa = PBXGroup;
 			children = (
+				56E78E8A2AD16C2F0090F24B /* readmeImages */,
 				5648D6662AC9B1660070B2B1 /* Licence */,
 				5648D6652AC9B0360070B2B1 /* README.md */,
 				56735F5D2AB6F6900074E261 /* LayoutGuide */,
@@ -160,6 +161,13 @@
 				567B237A2AC97D6900B4ADCB /* JsonMock.json */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		56E78E8A2AD16C2F0090F24B /* readmeImages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = readmeImages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
